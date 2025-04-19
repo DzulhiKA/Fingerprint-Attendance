@@ -28,7 +28,7 @@ const data = {
       items: [
         {
           title: "Member",
-          url: "/dashboard",
+          url: "/dashboard/member",
         },
         {
           title: "Harga",
@@ -36,7 +36,7 @@ const data = {
         },
         {
           title: "User",
-          url: "#",
+          url: "/dashboard/user",
         },
       ],
     },

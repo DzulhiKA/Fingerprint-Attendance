@@ -46,6 +46,7 @@ type DataTableProps<TData> = {
 
 export function DataTable<TData>({ data, columns, filter }: DataTableProps<TData>) {
     const pathname = usePathname()
+    const createUrl = `${pathname}/create`;
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -137,7 +138,7 @@ export function DataTable<TData>({ data, columns, filter }: DataTableProps<TData
                     }
                     className="max-w-sm"
                 />
-                <Button className="ml-auto">Add {pathname.split('/').filter(Boolean).pop()?.replace(/^\w/, c => c.toUpperCase())}</Button>
+                <Button className="ml-auto"><a href={createUrl}>Add {pathname.split('/').filter(Boolean).pop()?.replace(/^\w/, c => c.toUpperCase())}</a></Button>
                 {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">

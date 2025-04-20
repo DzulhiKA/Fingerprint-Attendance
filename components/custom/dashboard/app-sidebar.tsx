@@ -46,11 +46,11 @@ const data = {
       items: [
         {
           title: "Member",
-          url: "#",
+          url: "/dashboard/kunjungan-member",
         },
         {
           title: "Non Member",
-          url: "#",
+          url: "/dashboard/kunjungan-non-member",
         },
       ],
     },

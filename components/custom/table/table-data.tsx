@@ -52,7 +52,6 @@ export function DataTable<TData>({ data, columns, filter }: DataTableProps<TData
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
 
-    // Add selection column at the beginning
     const enhancedColumns: ColumnDef<TData>[] = [
         {
             id: "select",

@@ -6,6 +6,12 @@ import { TUser } from "@/data/user-dummy-data";
 export const userColumns: ColumnDef<TUser>[] = [
     { accessorKey: "id", header: "ID" },
     { accessorKey: "username", header: "Username" },
-    { accessorKey: "role", header: "Role" },
+    {
+        accessorKey: "role",
+        header: "Role",
+        cell: ({ row }) => {
+            return <div className="capitalize">{row.getValue("role")}</div>
+        }
+     },
 
 ]

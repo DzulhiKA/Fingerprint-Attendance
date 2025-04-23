@@ -16,9 +16,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { userDataSchema, userFormSchema } from "@/data/schema/form-schema";
+import { hargaDataSchema, hargaFormSchema } from "@/data/schema/form-schema";
 
-export default function createMember() {
+export default function createHarga() {
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -31,7 +31,7 @@ export default function createMember() {
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbLink>User</BreadcrumbLink>
+              <BreadcrumbLink>Harga</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
@@ -41,7 +41,7 @@ export default function createMember() {
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        <FormTable schema={userFormSchema} zodSchema={userDataSchema} onSubmit={async (data) => {
+        <FormTable schema={hargaFormSchema} zodSchema={hargaDataSchema} onSubmit={async (data) => {
             console.log(data)
         }}></FormTable>
       </div>

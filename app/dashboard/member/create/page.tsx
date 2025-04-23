@@ -16,7 +16,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { userDataSchema, userFormSchema } from "@/data/schema/form-schema";
+import { memberDataSchema, memberFormSchema } from "@/data/schema/form-schema";
 
 export default function createMember() {
   return (
@@ -31,7 +31,7 @@ export default function createMember() {
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbLink>User</BreadcrumbLink>
+              <BreadcrumbLink>Member</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
@@ -41,7 +41,7 @@ export default function createMember() {
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        <FormTable schema={userFormSchema} zodSchema={userDataSchema} onSubmit={async (data) => {
+        <FormTable schema={memberFormSchema} zodSchema={memberDataSchema} onSubmit={async (data) => {
             console.log(data)
         }}></FormTable>
       </div>

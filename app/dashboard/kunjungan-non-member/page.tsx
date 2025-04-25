@@ -26,17 +26,21 @@ export default function Member() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink>Manage Data</BreadcrumbLink>
+              <BreadcrumbLink>Kunjungan</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>Kunjungan Non Member</BreadcrumbPage>
+              <BreadcrumbPage>Non Member</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-          <DataTable data={nonMembersData} columns={nonMembersColumn} filter="nama"/>
+        <DataTable
+          data={nonMembersData}
+          columns={nonMembersColumn}
+          filter="nama"
+        />
       </div>
     </SidebarInset>
   );

@@ -17,7 +17,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-
 export default function Member() {
   return (
     <SidebarInset>
@@ -27,17 +26,21 @@ export default function Member() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink>Manage Data</BreadcrumbLink>
+              <BreadcrumbLink>Kunjungan</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>Kunjungan Member</BreadcrumbPage>
+              <BreadcrumbPage>Member</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-          <DataTable data={kunjunganMemberData} columns={kunjunganMembersColumn} filter="nama"/>
+        <DataTable
+          data={kunjunganMemberData}
+          columns={kunjunganMembersColumn}
+          filter="memberId"
+        />
       </div>
     </SidebarInset>
   );

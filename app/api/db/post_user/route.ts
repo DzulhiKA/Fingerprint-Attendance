@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
       priv: item.Privilege,
       rfid: item.RFID,
       nama: item.Name,
+      expiredAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       sn: sn,
     }));
 

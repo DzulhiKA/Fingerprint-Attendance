@@ -19,7 +19,7 @@ export async function GET(req: any, res: any) {
       pwd: 'password123',
       rfid: 'RFID123',
       priv: '0',
-      expiredAt:new Date(Date.now()),
+      expiredAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
     });
 
     const template = await Template.create({

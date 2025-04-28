@@ -8,19 +8,11 @@ const User = sequelize.define('tb_user_copy1', {
   pwd: DataTypes.STRING,
   rfid: DataTypes.STRING,
   priv: DataTypes.STRING,
+  expiredAt:DataTypes.DATE,
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
     allowNull: false,
-  },
-  expiredAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: () => {
-      const now = new Date();
-      now.setDate(now.getDate() + 30);  // Menambah 30 hari ke tanggal sekarang
-      return now;  // Mengembalikan tanggal baru setelah penambahan 30 hari
-    },
   },
 });
 

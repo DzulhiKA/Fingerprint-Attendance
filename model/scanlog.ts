@@ -1,8 +1,7 @@
 import { DataTypes } from "sequelize"
 import sequelize from "@/lib/sequelize" // your sequelize config
 
-const scanLog = sequelize.define(
-  "scanLog",
+const scanLog = sequelize.define('tb_scanlog_copy1',
   {
     sn: DataTypes.STRING,
     scan_date: {
@@ -15,9 +14,6 @@ const scanLog = sequelize.define(
     iomode: DataTypes.INTEGER,
     workcode: DataTypes.INTEGER,
   },
-  {
-    timestamps: false, // tidak ada kolom createdAt/updatedAt
-  }
-)
+);
 
 export default scanLog

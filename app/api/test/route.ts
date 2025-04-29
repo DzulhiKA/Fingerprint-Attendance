@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import sequelize from '@/lib/sequelize';
 import User from '@/model/user';
 import Template from '@/model/template';
+import scanLog from "@/model/scanlog";
+import NonMember from "@/model/nonmember";
 
 
 export async function GET(req: any, res: any) {
@@ -33,6 +35,20 @@ export async function GET(req: any, res: any) {
         }
       ]
     });
+
+    const scanlog = await scanLog.create({
+      pin: "2",
+      workcode: 0,
+      sn: "66208024520233",
+      verifymode: 2,
+      scan_date: "2025-04-29 17:54:55",
+      iomode: 1
+    })
+
+    const nonMember = await NonMember.create({
+      nama: "andri",
+      harga_dibayar: 20000
+    })
 
     return NextResponse.json({
       message: 'User created successfully!',

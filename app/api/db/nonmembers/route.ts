@@ -6,7 +6,7 @@ import sequelize from "@/lib/sequelize"
 export async function GET() {
   try {
     await sequelize.authenticate()
-    const data = await NonMember.findAll({ order: [["tgl_kunjungan", "DESC"]] })
+    const data = await NonMember.findAll({ order: [["createdAt", "DESC"]] })
     return NextResponse.json(data, { status: 200 })
   } catch (error) {
     return NextResponse.json(

@@ -4,9 +4,6 @@ import axios from 'axios';
 
 
 export async function POST(req: NextRequest) {
-
-
-
   try {
     
     const body = await req.json() // Expect JSON body from client

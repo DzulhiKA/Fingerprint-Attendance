@@ -13,17 +13,13 @@ const NonMember = sequelize.define(
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    tgl_kunjungan: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     harga_dibayar: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
   },
   {
-    timestamps: false, // karena tidak ada kolom createdAt dan updatedAt
+    timestamps: true, // karena tidak ada kolom createdAt dan updatedAt
   }
 )
 

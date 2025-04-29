@@ -23,14 +23,10 @@ export async function POST(req: NextRequest) {
     data: data,
   };
 
-  
-  
   try {
-    
-
 const response = await axios.request(config);
     return NextResponse.json({
-      message: "Berhasil Mas!!!"
+      message: "Data Berhasil Dihapus Mas!!!"
     }, {
         status: 200
     });

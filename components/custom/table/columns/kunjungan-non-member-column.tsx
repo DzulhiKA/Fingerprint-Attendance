@@ -2,23 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { TNonMembers } from '@/data/non-member-dummy-data';
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
 export const nonMembersColumn: ColumnDef<TNonMembers>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "nama",
     header: "Nama",
-  },
-  {
-    accessorKey: "tgl_Kunjungan",
-    header: "Tanggal Kunjungan",
-    cell: ({ row }) => {
-      const date = new Date(row.getValue("tgl_Kunjungan"));
-      return date.toLocaleDateString("id-ID");
-    },
   },
   {
     accessorKey: "harga_dibayar",
@@ -29,6 +19,14 @@ export const nonMembersColumn: ColumnDef<TNonMembers>[] = [
         style: "currency",
         currency: "IDR",
       }).format(amount);
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Tanggal Kunjungan",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt"));
+      return format(date, "EEEE, dd LLLL y, kk:mm", { locale: id })
     },
   },
 ];

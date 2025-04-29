@@ -1,6 +1,8 @@
+"use client"
+
 import { AppSidebar } from "@/components/custom/dashboard/app-sidebar";
 import { nonMembersColumn } from "@/components/custom/table/columns/kunjungan-non-member-column";
-import { nonMembersData } from "@/data/non-member-dummy-data";
+// import { nonMembersData } from "@/data/non-member-dummy-data";
 import { DataTable } from "@/components/custom/table/table-data";
 import {
   Breadcrumb,
@@ -16,8 +18,35 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { SpokeSpinner } from "@/components/ui/spinner";
+import useSWR from "swr";
+import { toast } from "sonner";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
+
+interface NonMember {
+  nama: string,
+  harga_dibayar: string,
+  createdAt: string
+}
 
 export default function Member() {
+
+  const fetcher = (url: string) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => res);
+
+
+  const { data: nonMember, error: nonMemberError } = useSWR<NonMember[], Error>(
+    "/api/db/nonmembers",
+    fetcher
+  );
+
+  console.log(nonMember)
+
+
+
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -36,11 +65,22 @@ export default function Member() {
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        <DataTable
-          data={nonMembersData}
-          columns={nonMembersColumn}
-          filter="nama"
-        />
+        {
+          nonMember ? (
+            <DataTable
+              data={nonMember}
+              columns={nonMembersColumn}
+              filter="nama"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <div className="flex items-center gap-2">
+                <SpokeSpinner size="md" />
+                <span className="text-md font-medium">Loading...</span>
+              </div>
+            </div>
+          )
+        }
       </div>
     </SidebarInset>
   );

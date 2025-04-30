@@ -1,7 +1,8 @@
+"use client";
+
 import { AppSidebar } from "@/components/custom/dashboard/app-sidebar";
 import { DataTable } from "@/components/custom/table/table-data";
-import { membersList } from "@/data/member-dummy-data";
-import { memberColumns } from "@/components/custom/table/columns/member-columns";
+import { memberColumn } from "@/components/custom/table/columns/member-columns";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,8 +17,27 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { SpokeSpinner } from "@/components/ui/spinner";
+import useSWR from "swr";
+import { toast } from "sonner";
+
+interface UserMember {
+  pin: string;
+  nama: string;
+  expireAt: string;
+}
 
 export default function Member() {
+  const fetcher = (url: string) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => res);
+
+  const { data: userMember, error: userMemberError } = useSWR<
+    UserMember[],
+    Error
+  >("/api/db/user", fetcher);
+
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -36,7 +56,21 @@ export default function Member() {
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-          <DataTable data={membersList} columns={memberColumns} filter="nama"/>
+        {userMember ? (
+          <DataTable
+            data={userMember}
+            //@ts-ignore
+            columns={memberColumn}
+            filter="nama"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <div className="flex items-center gap-2">
+              <SpokeSpinner size="md" />
+              <span className="text-md font-medium">Loading...</span>
+            </div>
+          </div>
+        )}
       </div>
     </SidebarInset>
   );

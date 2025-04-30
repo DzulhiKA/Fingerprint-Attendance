@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { AppSidebar } from "@/components/custom/dashboard/app-sidebar";
 import { nonMembersColumn } from "@/components/custom/table/columns/kunjungan-non-member-column";
@@ -25,27 +25,21 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 
 interface NonMember {
-  nama: string,
-  harga_dibayar: string,
-  createdAt: string
+  nama: string;
+  harga_dibayar: string;
+  createdAt: string;
 }
 
 export default function Member() {
-
   const fetcher = (url: string) =>
     fetch(url)
       .then((res) => res.json())
       .then((res) => res);
 
-
   const { data: nonMember, error: nonMemberError } = useSWR<NonMember[], Error>(
     "/api/db/nonmembers",
     fetcher
   );
-
-  console.log(nonMember)
-
-
 
   return (
     <SidebarInset>
@@ -65,22 +59,21 @@ export default function Member() {
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        {
-          nonMember ? (
-            <DataTable
-              data={nonMember}
-              columns={nonMembersColumn}
-              filter="nama"
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center">
-              <div className="flex items-center gap-2">
-                <SpokeSpinner size="md" />
-                <span className="text-md font-medium">Loading...</span>
-              </div>
+        {nonMember ? (
+          <DataTable
+            data={nonMember}
+            //@ts-ignore
+            columns={nonMembersColumn}
+            filter="nama"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <div className="flex items-center gap-2">
+              <SpokeSpinner size="md" />
+              <span className="text-md font-medium">Loading...</span>
             </div>
-          )
-        }
+          </div>
+        )}
       </div>
     </SidebarInset>
   );

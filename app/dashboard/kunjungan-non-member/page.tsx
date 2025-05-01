@@ -65,6 +65,7 @@ export default function Member() {
             //@ts-ignore
             columns={nonMembersColumn}
             filter="nama"
+            addLink={true}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

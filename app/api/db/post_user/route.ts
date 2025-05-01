@@ -28,10 +28,18 @@ export async function POST(req: NextRequest) {
 
     const fingerspotUsers = await fingerspotResponse?.data?.Data || [];
 
+
     // 2. Ambil data user dari database lokal
     const localUsers = await User.findAll({
       attributes: ['pin']
     });
+
+    // console.log(fingerspotUsers)
+    // if(localUsers.length === 0) {
+    //   const createdUsers = await User.bulkCreate(fingerspotUsers, { transaction, returning: true });
+    //   await transaction?.commit();
+    //   return NextResponse.json({ success: true, message: 'New users and templates created successfully' });
+    // }
 
     
     //@ts-ignore

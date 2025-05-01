@@ -20,6 +20,7 @@ import {
 import { SpokeSpinner } from "@/components/ui/spinner";
 import useSWR from "swr";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface KunjunganMember {
   pin: string;
@@ -32,6 +33,7 @@ interface UserMember {
 }
 
 export default function Member() {
+  const router = useRouter();
   const fetcher = (url: string) =>
     fetch(url)
       .then((res) => res.json())
@@ -61,7 +63,7 @@ export default function Member() {
     })
     .filter(Boolean); // Menghapus hasil yang null
 
-  // console.log(result);
+  // console.log(kunjunganMember);
 
   return (
     <SidebarInset>
@@ -87,6 +89,32 @@ export default function Member() {
             //@ts-ignore
             columns={kunjunganMembersColumn}
             filter="nama"
+            onClickAdd={async () => {
+              try {
+                await toast.promise(
+                  fetch("/api/db/scanlog", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ sn: "66208024520233" }),
+                  }).then((res) => {
+                    if (!res.ok) throw new Error();
+                    if(res.ok) location.reload();
+                    return res.json();
+                  }),
+                  {
+                    loading: "Mengambil data...",
+                    success: "Berhasil mengambil dan menyimpan scanlog!",
+                    error: "Gagal mengambil data.",
+                  }
+                );
+            
+                // Reload halaman setelah berhasil
+                // location.reload();
+              } catch (error) {
+                // Error sudah ditangani oleh toast
+              }
+            }}
+            addLink={false}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

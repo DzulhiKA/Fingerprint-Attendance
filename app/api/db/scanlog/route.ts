@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     // 4. Mapping data user baru
     const DataMap = ScanlogData.map((item: any) => ({
-      pin: item.PIN,
+      pin: item.PIN.trim(),
       sn: sn,
       verifymode: item.VerifyMode,
       scan_date: item.ScanDate,

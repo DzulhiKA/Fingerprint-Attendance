@@ -39,12 +39,14 @@ import {
 } from "@/components/ui/table"
 
 type DataTableProps<TData> = {
-    data: TData[]
-    columns: ColumnDef<TData>[]
-    filter: string
-}
+    data: TData[];
+    columns: ColumnDef<TData>[];
+    filter?: string;
+    onClickAdd?: () => void; // ⬅️ tambahkan props di sini
+    addLink?: boolean
+  };
 
-export function DataTable<TData>({ data, columns, filter }: DataTableProps<TData>) {
+export function DataTable<TData>({ data, columns, filter, onClickAdd, addLink }: DataTableProps<TData>) {
     const pathname = usePathname()
     const createUrl = `${pathname}/create`;
     const [sorting, setSorting] = React.useState<SortingState>([])
@@ -137,7 +139,7 @@ export function DataTable<TData>({ data, columns, filter }: DataTableProps<TData
                     }
                     className="max-w-sm"
                 />
-                <Button className="ml-auto"><a href={createUrl}>Add {pathname.split('/').filter(Boolean).pop()?.replace(/^\w/, c => c.toUpperCase())}</a></Button>
+                <Button onClick={onClickAdd} className="ml-auto"><a href={addLink ? createUrl : "#"}>Add {pathname.split('/').filter(Boolean).pop()?.replace(/^\w/, c => c.toUpperCase())}</a></Button>
                 {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">

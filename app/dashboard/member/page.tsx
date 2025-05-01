@@ -62,6 +62,32 @@ export default function Member() {
             //@ts-ignore
             columns={memberColumn}
             filter="nama"
+            onClickAdd={async () => {
+              try {
+                await toast.promise(
+                  fetch("/api/db/post_user", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ sn: "66208024520233" }),
+                  }).then((res) => {
+                    if (!res.ok) throw new Error();
+                    if(res.ok) location.reload();
+                    return res.json();
+                  }),
+                  {
+                    loading: "Mengambil data...",
+                    success: "Berhasil mengambil dan menyimpan member!",
+                    error: "Gagal mengambil data.",
+                  }
+                );
+            
+                // Reload halaman setelah berhasil
+                
+              } catch (error) {
+                // Error sudah ditangani oleh toast
+              }
+            }}
+            addLink={false}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

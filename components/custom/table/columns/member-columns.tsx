@@ -32,6 +32,7 @@ export const memberColumn: ColumnDef<TMember>[] = [
 
       const isNearExpiry = daysLeft <= 3;
       const isExpired = daysLeft < 0;
+      const showExtendBtn = isNearExpiry || isExpired;
 
       const textColor =
         isExpired || isNearExpiry ? "text-red-500" : "text-foreground";
@@ -43,21 +44,20 @@ export const memberColumn: ColumnDef<TMember>[] = [
 
       return (
         <div className="flex flex-col gap-1">
-          {/* Tanggal */}
           <span className={`text-sm font-medium ${textColor}`}>
             {format(expiredAt, "EEEE, dd LLLL y", { locale: id })}
           </span>
 
-          {/* Badge */}
           <Badge className={`w-fit ${badgeColor}`}>
             {isExpired ? "Sudah kedaluwarsa" : `Sisa ${daysLeft} hari`}
           </Badge>
 
-          {/* Tombol Aksi */}
           <div className="flex gap-2 mt-1">
-            <Button size="sm" variant="outline">
-              Perpanjang
-            </Button>
+            {showExtendBtn && (
+              <Button size="sm" variant="outline">
+                Perpanjang
+              </Button>
+            )}
             {isExpired && (
               <Button size="sm" variant="destructive">
                 Hapus Member

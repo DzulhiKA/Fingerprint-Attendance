@@ -19,7 +19,7 @@ export async function GET(
   })
   if (!detail) {
     return NextResponse.json(
-      { success: false, message: "Data tidak ditemukan" },
+      { success: false, message: "Data detail user tidak ditemukan" },
       { status: 404 }
     )
   }
@@ -34,10 +34,11 @@ export async function PUT(
   const detail = await DetailUser.findByPk(params.id)
   if (!detail) {
     return NextResponse.json(
-      { success: false, message: "Data tidak ditemukan" },
+      { success: false, message: "Data detail user tidak ditemukan" },
       { status: 404 }
     )
   }
+
   await detail.update(body)
   return NextResponse.json({ success: true, data: detail })
 }
@@ -54,5 +55,5 @@ export async function DELETE(
     )
   }
   await detail.destroy()
-  return NextResponse.json({ success: true, message: "Data dihapus" })
+  return NextResponse.json({ success: true, message: "Data detail user dihapus" })
 }

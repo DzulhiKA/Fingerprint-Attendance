@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 
+import { AppSidebar } from "@/components/custom/dashboard/app-sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+
 export const metadata: Metadata = {
-  title: "Member - Manage Data",
+  title: "Dashboard",
 };
 
 export default function RootLayout({
@@ -14,7 +21,10 @@ export default function RootLayout({
       <body
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SidebarProvider>
+          <AppSidebar />
+          {children}
+        </SidebarProvider>
       </body>
     </html>
   );

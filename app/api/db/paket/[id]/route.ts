@@ -30,7 +30,7 @@ export async function PUT(
     )
   }
   await paket.update(body)
-  return NextResponse.json({ success: true, data: paket })
+  return NextResponse.json({ success: true, data: paket,message: 'Paket Berhasil Diupdate' })
 }
 
 export async function DELETE(

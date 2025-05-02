@@ -31,6 +31,17 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { user_id, paket_id, nama, alamat, no_hp } = body
 
+      
+    // Validator Jika User Id Tidak Ditemukan
+      const existingUser = await User.findByPk(user_id);
+
+      if (!existingUser) {
+        return NextResponse.json(
+          { success: false, message: "User tidak ditemukan" },
+          { status: 500 }
+        );
+      }
+
     const created = await DetailUser.create({
       user_id,
       paket_id,

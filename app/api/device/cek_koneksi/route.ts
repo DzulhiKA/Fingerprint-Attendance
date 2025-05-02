@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import axios from "axios"
 import qs from "qs"
+import { json } from "sequelize"
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,8 +31,13 @@ export async function POST(req: NextRequest) {
     )
 
     return NextResponse.json({
-      success: true,
-      data: response.data,
+      // success: true,
+      Message : 'Mesin Fingerspot Berhasil Terhubung',
+      Data: {
+        'Waktu'        : response.data.DEVINFO.Jam,
+        'Jumlah User'  : response.data.DEVINFO.User,
+        'Jumlah Admin' : response.data.DEVINFO.Admin,
+      }
     })
   } catch (error: any) {
     console.error("Fingerspot connection failed:", error.message)

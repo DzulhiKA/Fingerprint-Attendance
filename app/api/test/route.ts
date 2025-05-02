@@ -5,6 +5,8 @@ import User from '@/model/user';
 import Template from '@/model/template';
 import scanLog from "@/model/scanlog";
 import NonMember from "@/model/nonmember";
+import Paket from "@/model/paket";
+import DetailUser from "@/model/detailuser";
 
 
 export async function GET(req: any, res: any) {
@@ -50,8 +52,22 @@ export async function GET(req: any, res: any) {
       harga_dibayar: 20000
     })
 
+    const paket = await Paket.create({
+      nama: "Silver Package",
+      harga: "20000",
+      keterangan : "Latihan Seminggu 1x"
+    })
+
+    const detailUser = await DetailUser.create({
+      user_id:"1",
+      paket_id:2,
+      nama: "Edo",
+      no_hp: "12345",
+      alamat : "Jl.Burung"
+    })
+
     return NextResponse.json({
-      message: 'User created successfully!',
+      message: 'Seeder created successfully!',
       data: user
     }, {
         status: 200

@@ -6,11 +6,6 @@ import sequelize from "@/lib/sequelize" // sesuaikan path ke koneksi Sequelize
 const Paket = sequelize.define(
   "Paket",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     nama: {
       type: DataTypes.STRING(50),
       allowNull: true,

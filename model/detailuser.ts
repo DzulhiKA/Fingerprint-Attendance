@@ -8,11 +8,6 @@ import Paket from "./paket"
 const DetailUser = sequelize.define(
   "DetailUser",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     user_id: {
       type: DataTypes.STRING, // karena PIN biasanya berupa string
       allowNull: false,

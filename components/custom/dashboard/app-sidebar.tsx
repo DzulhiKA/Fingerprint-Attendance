@@ -45,7 +45,7 @@ const data = {
           url: "/dashboard/harga",
         },
         {
-          title: "User",
+          title: "Staff",
           url: "/dashboard/user",
         },
       ],
@@ -61,6 +61,30 @@ const data = {
         {
           title: "Non Member",
           url: "/dashboard/kunjungan-non-member",
+        },
+      ],
+    },
+    {
+      title: "Laporan",
+      url: "#",
+      items: [
+        {
+          title: "Member",
+          url: "#",
+        },
+        {
+          title: "Non Member",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Info Device",
+      url: "#",
+      items: [
+        {
+          title: "Cek Koneksi",
+          url: "#",
         },
       ],
     },

@@ -22,6 +22,7 @@ import useSWR from "swr";
 import { toast } from "sonner";
 
 interface UserMember {
+  id: string;
   pin: string;
   nama: string;
   expireAt: string;
@@ -71,7 +72,7 @@ export default function Member() {
                     body: JSON.stringify({ sn: "66208024520233" }),
                   }).then((res) => {
                     if (!res.ok) throw new Error();
-                    if(res.ok) location.reload();
+                    if (res.ok) location.reload();
                     return res.json();
                   }),
                   {
@@ -80,9 +81,8 @@ export default function Member() {
                     error: "Gagal mengambil data.",
                   }
                 );
-            
+
                 // Reload halaman setelah berhasil
-                
               } catch (error) {
                 // Error sudah ditangani oleh toast
               }

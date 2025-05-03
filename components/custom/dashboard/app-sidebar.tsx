@@ -84,7 +84,7 @@ const data = {
       items: [
         {
           title: "Cek Koneksi",
-          url: "#",
+          url: "/dashboard/info-device",
         },
       ],
     },

@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
     const tmpData = createdUsers.flatMap((user) => {
       //@ts-ignore
       const matching = fingerspotUsers.find(
+        //@ts-ignore
         (item: any) => item.PIN === user.pin
       );
       const tmps = matching?.Template || [];
@@ -106,11 +107,37 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     await sequelize.authenticate();
-    const data = await User.findAll({ order: [["createdAT", "DESC"]] });
-    return NextResponse.json(data, { status: 200 });
+    const dataUser = await User.findAll({ order: [["createdAt", "DESC"]] });
+    const dataTemplate = await Template.findAll();
+
+    // Buat Map: key = pin, value = array of template objects
+    const templateMap = new Map<string | number, any[]>();
+    dataTemplate.forEach((template) => {
+      //@ts-ignore
+      const pin = template.pin;
+      if (pin) {
+        if (!templateMap.has(pin)) {
+          templateMap.set(pin, []);
+        }
+        //@ts-ignore
+        templateMap.get(pin)?.push(template.tmp); // masukkan object template secara utuh
+      }
+    });
+
+    // Gabungkan data user dengan array template
+    const mergedData = dataUser.map((user) => {
+      const userObj = user.toJSON(); // convert Sequelize object ke plain object
+      const tmp = templateMap.get(userObj.pin) || [];
+      return {
+        ...userObj,
+        tmp, // array of templates with same pin
+      };
+    });
+
+    return NextResponse.json(mergedData, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch scan logs", detail: error },
+      { error: "Failed to fetch users", detail: error },
       { status: 500 }
     );
   }

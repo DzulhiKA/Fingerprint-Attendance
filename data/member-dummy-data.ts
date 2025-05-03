@@ -3,7 +3,13 @@ import { ColumnDef } from "@tanstack/react-table";
 export type TMember = {
   pin: string;
   nama: string;
+  pwd: string;
+  rfid: string;
+  sn: string;
+  priv: string;
   expiredAt: string;
+  inDevice: boolean;
+  tmp: [];
 };
 
 // export const membersList: TMember[] = [

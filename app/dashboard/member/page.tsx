@@ -1,6 +1,6 @@
 "use client";
 
-import { AppSidebar } from "@/components/custom/dashboard/app-sidebar";
+import { useMemo } from "react";
 import { DataTable } from "@/components/custom/table/table-data";
 import { memberColumn } from "@/components/custom/table/columns/member-columns";
 import {
@@ -28,17 +28,59 @@ interface UserMember {
   expireAt: string;
 }
 
+interface deviceMember {
+  PIN: string;
+  Name: string;
+  Password: string;
+  Privilege: string;
+  Template: [];
+  RFID: string;
+}
+
 export default function Member() {
   const fetcher = (url: string) =>
     fetch(url)
       .then((res) => res.json())
       .then((res) => res);
 
+  const fetcherPost = async ([url, body]: [string, any]) => {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData?.message || "Gagal fetch data");
+    }
+
+    const json = await res.json();
+    return json;
+  };
+
   const { data: userMember, error: userMemberError } = useSWR<
     UserMember[],
     Error
   >("/api/db/user", fetcher);
 
+  const { data: deviceMember, error: deviceMemberError } = useSWR<
+    deviceMember[],
+    Error
+  >(["/api/device/download_user", { sn: "66208024520233" }], fetcherPost);
+
+  const mergedUserMember = useMemo(() => {
+    if (!userMember || !deviceMember) return null;
+    if (userMember.length === 0 || deviceMember.length === 0) return [];
+
+    const devicePins = new Set(deviceMember.map((dm) => String(dm.PIN)));
+
+    return userMember.map((user) => ({
+      ...user,
+      inDevice: devicePins.has(String(user.pin)),
+    }));
+  }, [userMember, deviceMember]);
+  console.log("device", deviceMember);
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -57,9 +99,9 @@ export default function Member() {
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        {userMember ? (
+        {mergedUserMember ? (
           <DataTable
-            data={userMember}
+            data={mergedUserMember}
             //@ts-ignore
             columns={memberColumn}
             filter="nama"

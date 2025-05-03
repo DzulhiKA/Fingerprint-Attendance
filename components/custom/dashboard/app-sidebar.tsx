@@ -33,6 +33,16 @@ const data = {
       ],
     },
     {
+      title: "Info Device",
+      url: "#",
+      items: [
+        {
+          title: "Cek Koneksi",
+          url: "/dashboard/info-device",
+        },
+      ],
+    },
+    {
       title: "Manage Data",
       url: "#",
       items: [
@@ -75,16 +85,6 @@ const data = {
         {
           title: "Non Member",
           url: "#",
-        },
-      ],
-    },
-    {
-      title: "Info Device",
-      url: "#",
-      items: [
-        {
-          title: "Cek Koneksi",
-          url: "/dashboard/info-device",
         },
       ],
     },

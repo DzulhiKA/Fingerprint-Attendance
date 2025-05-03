@@ -31,9 +31,9 @@ export async function POST(req: NextRequest) {
     )
 
     return NextResponse.json({
-      // success: true,
-      Message : 'Mesin Fingerspot Berhasil Terhubung',
-      Data: {
+      success: true,
+      message : 'Mesin Fingerspot Berhasil Terhubung',
+      data: {
         'Waktu'        : response.data.DEVINFO.Jam,
         'Jumlah User'  : response.data.DEVINFO.User,
         'Jumlah Admin' : response.data.DEVINFO.Admin,

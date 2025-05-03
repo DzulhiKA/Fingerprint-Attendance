@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import axios from "axios"
 import qs from "qs"
 import scanLog from "@/model/scanlog"
+import sequelize from "@/lib/sequelize"
 
 export async function POST(req: NextRequest) {
   const transaction = await scanLog.sequelize?.transaction()
@@ -67,5 +68,18 @@ export async function POST(req: NextRequest) {
       },
       { status: 500 }
     )
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    await sequelize.authenticate();
+    const data = await scanLog.findAll({ order: [["scan_date", "DESC"]] });
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch scan logs", detail: error },
+      { status: 500 }
+    );
   }
 }

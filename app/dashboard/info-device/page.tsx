@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "@/components/custom/table/table-data";
+import { toast } from "sonner";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,9 +18,34 @@ import {
 } from "@/components/ui/sidebar";
 import { SpokeSpinner } from "@/components/ui/spinner";
 
-
-export default function Member() {
-  
+export default function CekKoneksi() {
+  const sn = "66208024520233"
+  const handleCekKoneksi = async () => {
+    try {
+      await toast.promise(
+        fetch("/api/device/cek_koneksi", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sn }),
+        }).then(async (res) => {
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            throw new Error(data?.message || "Koneksi gagal.");
+          }
+          return res.json();
+        }),
+        {
+          loading: "Memeriksa koneksi perangkat...",
+          success: "Perangkat berhasil terhubung!",
+          error: "Gagal terhubung ke perangkat.",
+        }
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <SidebarInset>
@@ -40,7 +65,7 @@ export default function Member() {
         </Breadcrumb>
       </header>
       <div className="flex flex-1 justify-center items-center flex-col gap-4 p-4">
-        <Button>Cek Koneksi</Button>
+        <Button onClick={handleCekKoneksi}>Cek Koneksi</Button>
       </div>
     </SidebarInset>
   );

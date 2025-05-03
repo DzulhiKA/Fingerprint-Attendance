@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '@/lib/sequelize'; // your sequelize config
 
 const User = sequelize.define(
-  "tb_user_copy1",
+  "tb_user_copy1s",
   {
     sn: DataTypes.STRING,
     pin: {
@@ -17,7 +17,7 @@ const User = sequelize.define(
   },
   {
     timestamps: true, // ini akan otomatis tambahkan createdAt & updatedAt
-    tableName: "tb_user_copy1",
+    tableName: "tb_user_copy1s",
   }
 )
 

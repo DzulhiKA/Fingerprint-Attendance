@@ -18,6 +18,12 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 
 export const memberColumn: ColumnDef<TMember>[] = [
@@ -66,6 +72,37 @@ export const memberColumn: ColumnDef<TMember>[] = [
       const priv = row.original?.priv;
       const tmp = row.original?.tmp;
 
+      // ⬇️ Tambahkan state untuk datepicker
+      const [date, setDate] = useState<Date | undefined>();
+      const [open, setOpen] = useState(false);
+
+      const handleExtendDate = async (selectedDate: Date) => {
+        try {
+          setOpen(false);
+          await toast.promise(
+            fetch(`/api/db/user/${pin}`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ expiredAt: selectedDate }),
+            }).then(async (res) => {
+              if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                throw new Error(data?.message || "Gagal memperpanjang.");
+              }
+              location.reload();
+              return res.json();
+            }),
+            {
+              loading: "Memperpanjang...",
+              success: "Tanggal berhasil diperpanjang!",
+              error: "Gagal memperpanjang.",
+            }
+          );
+        } catch (err) {
+          console.error(err);
+        }
+      };
+
       return (
         <div className="flex flex-col gap-1">
           <span className={`text-sm font-medium ${textColor}`}>
@@ -78,9 +115,21 @@ export const memberColumn: ColumnDef<TMember>[] = [
 
           <div className="flex gap-2 mt-1">
             {showExtendBtn && (
-              <Button size="sm" variant="outline">
-                Perpanjang
-              </Button>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button size="sm" variant="outline">
+                    Perpanjang
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(d) => d && handleExtendDate(d)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             )}
 
             {/* Tombol berdasarkan status inDevice */}

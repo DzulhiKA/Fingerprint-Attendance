@@ -56,7 +56,7 @@ export default function Member() {
     }
 
     const json = await res.json();
-    return json;
+    return json.data;
   };
 
   const { data: userMember, error: userMemberError } = useSWR<
@@ -80,7 +80,7 @@ export default function Member() {
       inDevice: devicePins.has(String(user.pin)),
     }));
   }, [userMember, deviceMember]);
-  console.log("device", deviceMember);
+  // console.log("device", deviceMember);
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">

@@ -47,4 +47,46 @@ export async function POST(
               status: 500
           });
         }
-      }
+}
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { pin: string } }
+) {
+  try {
+    const { expiredAt } = await req.json();
+    const pin = params.pin;
+
+    if (!expiredAt) {
+      return NextResponse.json(
+        { success: false, message: 'expiredAt is required in request body' },
+        { status: 400 }
+      );
+    }
+
+    // Cari user berdasarkan PIN
+    const user = await User.findOne({ where: { pin } });
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: 'User not found' },
+        { status: 404 }
+      );
+    }
+
+    // Update expiredAt langsung dari body
+    await user.update({ expiredAt });
+
+    return NextResponse.json({
+      success: true,
+      message: 'expiredAt updated successfully',
+      data: { pin, expiredAt },
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { success: false, message: 'Failed to update expiredAt' },
+      { status: 500 }
+    );
+  }
+}

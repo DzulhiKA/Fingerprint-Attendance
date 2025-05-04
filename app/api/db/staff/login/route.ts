@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    //@ts-ignore
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
       {
         message: "Login berhasil.",
         user: {
+          //@ts-ignore
           nama: user.nama,
         },
       },

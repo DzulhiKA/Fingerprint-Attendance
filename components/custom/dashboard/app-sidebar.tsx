@@ -75,6 +75,16 @@ const data = {
       ],
     },
     {
+      title: "Log",
+      url: "#",
+      items: [
+        {
+          title: "Member",
+          url: "/dashboard/member-log",
+        },
+      ],
+    },
+    {
       title: "Laporan",
       url: "#",
       items: [

@@ -1,8 +1,8 @@
-import { AppSidebar } from "@/components/custom/dashboard/app-sidebar";
+"use client";
+
 import { DataTable } from "@/components/custom/table/table-data";
 
 import { userColumns } from "@/components/custom/table/columns/user-columns";
-import { userData } from "@/data/user-dummy-data";
 
 import {
   Breadcrumb,
@@ -18,8 +18,29 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { SpokeSpinner } from "@/components/ui/spinner";
+import useSWR from "swr";
 
-export default function Member() {
+interface Staff {
+  id: string;
+  nama: string;
+  password: string;
+  createdAt: string;
+}
+
+export default function User() {
+  const fetcher = (url: string) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => res);
+
+  const { data: staff, error: staffError } = useSWR<Staff[], Error>(
+    "/api/db/staff",
+    fetcher
+  );
+
+  // console.log(staff);
+
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -32,13 +53,28 @@ export default function Member() {
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>User</BreadcrumbPage>
+              <BreadcrumbPage>Staff</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-          <DataTable data={userData} columns={userColumns} filter="username"/>
+        {staff ? (
+          <DataTable
+            data={staff}
+            //@ts-ignore
+            columns={userColumns}
+            filter="nama"
+            addLink={true}
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <div className="flex items-center gap-2">
+              <SpokeSpinner size="md" />
+              <span className="text-md font-medium">Loading...</span>
+            </div>
+          </div>
+        )}
       </div>
     </SidebarInset>
   );

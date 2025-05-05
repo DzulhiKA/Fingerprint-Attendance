@@ -80,11 +80,14 @@ export async function GET(req: any, res: any) {
     });
 
   } catch (error) {
-    console.error('DB Test Error:', error);
-    return NextResponse.json({
-      message: 'Something went wrong'
-    }, {
-        status: 500
-    });
+    console.error("DB Test Error:", error);
+    return NextResponse.json(
+      {
+        message: "Something went wrong",
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

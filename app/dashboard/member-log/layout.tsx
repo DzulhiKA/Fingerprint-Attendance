@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "MGYM",
+  title: "Kunjungan Member - Manage Data",
 };
 
 export default function RootLayout({
@@ -17,7 +15,6 @@ export default function RootLayout({
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <Toaster richColors />
       </body>
     </html>
   );

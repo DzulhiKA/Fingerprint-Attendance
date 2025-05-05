@@ -128,14 +128,8 @@ export const hargaDataSchema = z
 
 export const userFormSchema: FormFieldSchema[] = [
   {
-    name: "id",
-    label: "ID",
-    type: "text",
-    required: true,
-  },
-  {
-    name: "username",
-    label: "Username",
+    name: "nama",
+    label: "Nama",
     type: "text",
     required: true,
   },
@@ -144,37 +138,11 @@ export const userFormSchema: FormFieldSchema[] = [
     label: "Password",
     type: "text",
   },
-  {
-    name: "role",
-    label: "Role",
-    type: "select",
-    required: true,
-    options: [
-      {
-        label: "Admin",
-        value: "admin",
-      },
-      {
-        label: "Staff",
-        value: "staff",
-      },
-      {
-        label: "Trainer",
-        value: "trainer",
-      },
-      {
-        label: "Member",
-        value: "member",
-      },
-    ],
-  },
 ];
 
 export const userDataSchema = z.object({
-  id: z.string().min(1, { message: "ID tidak boleh kosong" }),
-  username: z.string().min(1, { message: "Username tidak boleh kosong" }),
+  nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
   password: z.string().min(1, { message: "Password tidak boleh kosong" }),
-  role: z.string().min(1, { message: "Role tidak boleh kosong" }),
 });
 
 export const kunjunganMemberFormSchema: FormFieldSchema[] = [

@@ -79,9 +79,9 @@ export function FormTable({ schema, zodSchema, onSubmit }: FormTableProps) {
   const handleSubmit = async (data: z.infer<typeof zodSchema>) => {
     try {
       await onSubmit(data);
-      toast.success("Form submitted successfully");
+      // toast.success("Form submitted successfully");
     } catch (error) {
-      toast.error("Something went wrong");
+      // toast.error("Something went wrong");
     }
   };
 

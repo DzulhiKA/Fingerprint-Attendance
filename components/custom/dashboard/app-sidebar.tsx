@@ -51,7 +51,7 @@ const data = {
           url: "/dashboard/member",
         },
         {
-          title: "Harga",
+          title: "Paket",
           url: "/dashboard/harga",
         },
         {
@@ -84,20 +84,20 @@ const data = {
         },
       ],
     },
-    {
-      title: "Laporan",
-      url: "#",
-      items: [
-        {
-          title: "Member",
-          url: "#",
-        },
-        {
-          title: "Non Member",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Laporan",
+    //   url: "#",
+    //   items: [
+    //     {
+    //       title: "Member",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Non Member",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
   ],
 };
 

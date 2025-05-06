@@ -1,6 +1,6 @@
-import { AppSidebar } from "@/components/custom/dashboard/app-sidebar";
+"use client";
+
 import { DataTable } from "@/components/custom/table/table-data";
-import { hargaList } from "@/data/harga-dummy-data";
 import { hargaColumns } from "@/components/custom/table/columns/harga-columns";
 import {
   Breadcrumb,
@@ -16,8 +16,31 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { SpokeSpinner } from "@/components/ui/spinner";
+import useSWR from "swr";
+
+interface Paket {
+  id: string;
+  nama: string;
+  harga: string;
+  keterangan: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function Harga() {
+  const fetcher = (url: string) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => res.data);
+
+  const { data: paket, error: paketError } = useSWR<Paket[], Error>(
+    "/api/db/paket",
+    fetcher
+  );
+
+  // console.log(paket);
+
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -30,19 +53,30 @@ export default function Harga() {
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>Harga</BreadcrumbPage>
+              <BreadcrumbPage>Paket</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-        </div> */}
-        <DataTable data={hargaList} columns={hargaColumns} filter="jenis" />
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        {paket ? (
+          <DataTable
+            data={paket}
+            //@ts-ignore
+            columns={hargaColumns}
+            filter="nama"
+            addLink={true}
+            buttonAdd={true}
+            optionMenu={true}
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <div className="flex items-center gap-2">
+              <SpokeSpinner size="md" />
+              <span className="text-md font-medium">Loading...</span>
+            </div>
+          </div>
+        )}
       </div>
     </SidebarInset>
   );

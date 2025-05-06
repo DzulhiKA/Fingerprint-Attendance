@@ -130,6 +130,8 @@ export default function Member() {
               }
             }}
             addLink={false}
+            buttonAdd={true}
+            optionMenu={true}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

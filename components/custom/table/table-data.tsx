@@ -44,6 +44,8 @@ type DataTableProps<TData> = {
   filter?: string;
   onClickAdd?: () => void; // ⬅️ tambahkan props di sini
   addLink?: boolean;
+  buttonAdd?: boolean;
+  optionMenu?: boolean;
 };
 
 export function DataTable<TData>({
@@ -52,6 +54,8 @@ export function DataTable<TData>({
   filter,
   onClickAdd,
   addLink,
+  buttonAdd,
+  optionMenu,
 }: DataTableProps<TData>) {
   const pathname = usePathname();
   const createUrl = `${pathname}/create`;
@@ -93,7 +97,7 @@ export function DataTable<TData>({
       cell: ({ row }) => {
         const payment = row.original;
 
-        return (
+        return optionMenu ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -107,7 +111,7 @@ export function DataTable<TData>({
               <DropdownMenuItem>View payment details</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        );
+        ) : null;
       },
     },
   ];
@@ -144,19 +148,21 @@ export function DataTable<TData>({
           }
           className="max-w-sm"
         />
-        <Button onClick={onClickAdd} className="ml-auto">
-          <a href={addLink ? createUrl : "#"}>
-            Add{" "}
-            {pathname
-              .split("/")
-              .filter(Boolean)
-              .pop()
-              ?.toLowerCase()
-              .split("-")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" ")}
-          </a>
-        </Button>
+        {buttonAdd ? (
+          <Button onClick={onClickAdd} className="ml-auto">
+            <a href={addLink ? createUrl : "#"}>
+              Add{" "}
+              {pathname
+                .split("/")
+                .filter(Boolean)
+                .pop()
+                ?.toLowerCase()
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
+            </a>
+          </Button>
+        ) : null}
         {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">

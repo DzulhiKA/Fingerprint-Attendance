@@ -66,6 +66,8 @@ export default function User() {
             columns={userColumns}
             filter="nama"
             addLink={true}
+            buttonAdd={true}
+            optionMenu={true}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

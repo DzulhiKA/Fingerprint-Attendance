@@ -25,7 +25,7 @@ export default function LoginPage() {
 
     try {
       await toast.promise(
-        fetch("/api/db/staff/login", {
+        fetch("/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

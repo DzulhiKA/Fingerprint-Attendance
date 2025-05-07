@@ -123,6 +123,12 @@ export const userDataSchema = z.object({
   password: z.string().min(1, { message: "Password tidak boleh kosong" }),
 });
 
+// Untuk edit user
+export const editUserSchema = z.object({
+  nama: z.string().min(1),
+  password: z.string().optional().or(z.literal("")),
+});
+
 export const kunjunganMemberFormSchema: FormFieldSchema[] = [
   {
     name: "id",

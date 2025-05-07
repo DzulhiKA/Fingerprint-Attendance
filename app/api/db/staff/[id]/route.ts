@@ -19,7 +19,7 @@ export async function GET(
 }
 
 // PUT update by ID
-export async function PUT(
+export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -32,6 +32,13 @@ export async function PUT(
       { message: "Update Data Staff Gagal" },
       { status: 404 }
     );
+
+  if (password === "") {
+    await data.update({
+      nama,
+    });
+    return NextResponse.json({ message: "Data Staff Berhasil Diupdate", data });
+  }
 
   await data.update({
     nama,

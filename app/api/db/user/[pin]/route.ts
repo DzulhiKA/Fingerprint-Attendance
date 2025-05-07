@@ -5,8 +5,12 @@ import axios from "axios";
 import MemberActivityLog from "@/model/memberactivity";
 
 export async function POST(
-  req: NextRequest,
-  { params }: { params: { pin: string } }
+//   req: NextRequest,
+//   { params }: { params: { pin: string } }
+// ) {
+
+req: NextRequest,
+{ params }: { params: Promise<{ pin: string }> }
 ) {
   const { sn, pin } = await req.json();
 
@@ -28,7 +32,7 @@ export async function POST(
 
   // HAPUS DATA DI DATABASE
   const users = await User.destroy({
-    where: { pin: params.pin },
+    where: { pin: pin },
   });
 
   try {
@@ -55,12 +59,17 @@ export async function POST(
 }
 
 export async function PATCH(
+//   req: NextRequest,
+//   { params }: { params: { pin: string } }
+// ) {
   req: NextRequest,
-  { params }: { params: { pin: string } }
+  { params }: { params: Promise<{ pin: string }> }
 ) {
+  
   try {
+    // const { pin } = await params;
     const { expiredAt, oldExpired } = await req.json();
-    const pin = params.pin;
+    const pin = (await params).pin;
 
     if (!expiredAt) {
       return NextResponse.json(

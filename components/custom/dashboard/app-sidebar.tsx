@@ -52,7 +52,7 @@ const data = {
         },
         {
           title: "Paket",
-          url: "/dashboard/harga",
+          url: "/dashboard/paket",
         },
         {
           title: "Staff",

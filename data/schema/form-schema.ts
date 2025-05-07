@@ -72,53 +72,31 @@ export const memberDataSchema = z
 
 export const hargaFormSchema: FormFieldSchema[] = [
   {
-    name: "jenis",
-    label: "Jenis",
-    type: "select",
+    name: "nama",
+    label: "Nama",
+    type: "text",
     required: true,
-    options: [
-      {
-        label: "Membership",
-        value: "Membership",
-      },
-      {
-        label: "Personal Training",
-        value: "Personal Training",
-      },
-    ],
-  },
-  {
-    name: "tipe",
-    label: "Tipe",
-    type: "select",
-    required: true,
-    options: [
-      {
-        label: "Gold",
-        value: "Gold",
-      },
-      {
-        label: "Silver",
-        value: "Silver",
-      },
-      {
-        label: "Bronze",
-        value: "Bronze",
-      },
-    ],
   },
   {
     name: "harga",
     label: "Harga",
-    type: "number",
+    defaultValue: 0,
+    //@ts-ignore
+    type: "currency", // custom type
+    required: true,
+  },
+  {
+    name: "keterangan",
+    label: "Keterangan",
+    type: "text",
     required: true,
   },
 ];
 
 export const hargaDataSchema = z
   .object({
-    jenis: z.string().min(1, { message: "Jenis tidak boleh kosong" }),
-    tipe: z.string().min(1, { message: "Tipe tidak boleh kosong" }),
+    nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
+    keterangan: z.string().min(1, { message: "Keterangan tidak boleh kosong" }),
     harga: z.number().min(1, { message: "Harga tidak boleh kosong" }),
   })
   .refine((data) => data.harga > 0, {

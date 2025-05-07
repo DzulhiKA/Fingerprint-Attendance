@@ -37,6 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 
 type DataTableProps<TData> = {
   data: TData[];
@@ -46,6 +47,7 @@ type DataTableProps<TData> = {
   addLink?: boolean;
   buttonAdd?: boolean;
   optionMenu?: boolean;
+  editUrl?: string;
 };
 
 export function DataTable<TData>({
@@ -56,6 +58,7 @@ export function DataTable<TData>({
   addLink,
   buttonAdd,
   optionMenu,
+  editUrl,
 }: DataTableProps<TData>) {
   const pathname = usePathname();
   const createUrl = `${pathname}/create`;
@@ -91,29 +94,31 @@ export function DataTable<TData>({
       enableHiding: false,
     },
     ...columns,
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => {
-        const payment = row.original;
+    // {
+    //   id: "actions",
+    //   enableHiding: false,
+    //   cell: ({ row }) => {
+    //     const payment = row.original;
 
-        return optionMenu ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : null;
-      },
-    },
+    //     return optionMenu ? (
+    //       <DropdownMenu>
+    //         <DropdownMenuTrigger asChild>
+    //           <Button variant="ghost" className="h-8 w-8 p-0">
+    //             <span className="sr-only">Open menu</span>
+    //             <MoreHorizontal />
+    //           </Button>
+    //         </DropdownMenuTrigger>
+    //         <DropdownMenuContent align="end">
+    //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+    //           <DropdownMenuItem asChild>
+    //             <Link href={editUrl || "#"}>Edit</Link>
+    //           </DropdownMenuItem>
+    //           <DropdownMenuItem>Hapus</DropdownMenuItem>
+    //         </DropdownMenuContent>
+    //       </DropdownMenu>
+    //     ) : null;
+    //   },
+    // },
   ];
 
   const table = useReactTable({

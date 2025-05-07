@@ -39,6 +39,7 @@ type FormTableProps = {
   schema: FormFieldSchema[];
   zodSchema: z.ZodSchema<any>;
   onSubmit: (data: any) => void;
+  defaultValues?: Record<string, any>;
 };
 
 function getDefaultValues(schema: FormFieldSchema[]) {
@@ -70,10 +71,15 @@ function getDefaultValues(schema: FormFieldSchema[]) {
   return defaults;
 }
 
-export function FormTable({ schema, zodSchema, onSubmit }: FormTableProps) {
+export function FormTable({
+  schema,
+  zodSchema,
+  onSubmit,
+  defaultValues,
+}: FormTableProps) {
   const form = useForm<z.infer<typeof zodSchema>>({
     resolver: zodResolver(zodSchema),
-    defaultValues: getDefaultValues(schema),
+    defaultValues: defaultValues || getDefaultValues(schema),
   });
 
   const handleSubmit = async (data: z.infer<typeof zodSchema>) => {

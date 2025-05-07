@@ -3,10 +3,11 @@ import NonMember from "@/model/nonmember"
 
 // GET by ID
 export async function GET(
-  _: NextRequest,
-  { params }: { params: { id: string } }
+ req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const data = await NonMember.findByPk(params.id)
+  const { id } = await params;
+  const data = await NonMember.findByPk(id)
   if (!data) return NextResponse.json({ error: "Not found" }, { status: 404 })
   return NextResponse.json(data)
 }
@@ -14,10 +15,11 @@ export async function GET(
 // PUT update by ID
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const body = await req.json()
-  const data = await NonMember.findByPk(params.id)
+  const data = await NonMember.findByPk(id)
   if (!data) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
   await data.update(body)
@@ -26,10 +28,11 @@ export async function PUT(
 
 // DELETE by ID
 export async function DELETE(
-  _: NextRequest,
-  { params }: { params: { id: string } }
+req: NextRequest,
+{ params }: { params: Promise<{ id: string }> }
 ) {
-  const data = await NonMember.findByPk(params.id)
+const { id } = await params;
+  const data = await NonMember.findByPk(id)
   if (!data) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
   await data.destroy()

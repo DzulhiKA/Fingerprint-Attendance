@@ -5,9 +5,10 @@ import Paket from "@/model/paket"
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const paket = await Paket.findByPk(params.id)
+  const { id } = await params;
+  const paket = await Paket.findByPk(id)
   if (!paket) {
     return NextResponse.json(
       { success: false, message: "Paket tidak ditemukan" },
@@ -19,10 +20,11 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const body = await req.json()
-  const paket = await Paket.findByPk(params.id)
+  const paket = await Paket.findByPk(id)
   if (!paket) {
     return NextResponse.json(
       { success: false, message: "Paket tidak ditemukan" },
@@ -35,9 +37,10 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const paket = await Paket.findByPk(params.id)
+  { params }: { params: Promise<{ id: string }> }
+  ) {
+  const { id } = await params;
+  const paket = await Paket.findByPk(id)
   if (!paket) {
     return NextResponse.json(
       { success: false, message: "Paket tidak ditemukan" },

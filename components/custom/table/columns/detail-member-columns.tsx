@@ -55,7 +55,7 @@ export const detailMemberColumns: ColumnDef<TDetailMember>[] = [
     accessorKey: "paket",
     header: "Paket",
     cell: ({ row }) => {
-      const paket = row.original.Paket.nama || "Tidak ada";
+      const paket = row.original.Paket ? row.original.Paket.nama : "Tidak ada";
 
       return paket;
     },

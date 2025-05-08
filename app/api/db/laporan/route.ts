@@ -38,11 +38,11 @@ export async function POST(req: NextRequest) {
 
     //Cek Data Jika Salah Satu Data Kosong Return 'Data Kosong'
     const responseData = {
-      kasir: kasir.length ? kasir : "Data Kasir Tidak Ditemukan",
-      nonmember: nonmember.length
+      "Kasir": kasir.length ? kasir : "Data Kasir Tidak Ditemukan",
+      "Non Member": nonmember.length
         ? nonmember
         : "Data NonMember Tidak Ditemukan",
-      memberactivity: memberactivity.length
+      "Member Activity": memberactivity.length
         ? memberactivity
         : "Data Member Activity Tidak Ditemukan",
     };

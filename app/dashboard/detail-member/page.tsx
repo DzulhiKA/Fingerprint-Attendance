@@ -1,7 +1,6 @@
 "use client";
 
 import { DataTable } from "@/components/custom/table/table-data";
-import { hargaColumns } from "@/components/custom/table/columns/harga-columns";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,6 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import { SpokeSpinner } from "@/components/ui/spinner";
 import useSWR from "swr";
+import { detailMemberColumns } from "@/components/custom/table/columns/detail-member-columns";
 
 interface DetailMember {
   id: number;
@@ -26,7 +26,7 @@ interface DetailMember {
   nama: string;
   alamat: string;
   no_hp: number;
-  tb_user_copy1s: {
+  tb_user_copy1: {
     pin: string;
     nama: string;
     expiredAt: string;
@@ -50,8 +50,6 @@ export default function DetailMember() {
     Error
   >("/api/db/detailuser", fetcher);
 
-  // console.log(paket);
-
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -70,11 +68,11 @@ export default function DetailMember() {
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        {/* {paket ? (
+        {detailMember ? (
           <DataTable
-            data={paket}
+            data={detailMember}
             //@ts-ignore
-            columns={hargaColumns}
+            columns={detailMemberColumns}
             filter="nama"
             addLink={true}
             buttonAdd={true}
@@ -87,7 +85,7 @@ export default function DetailMember() {
               <span className="text-md font-medium">Loading...</span>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </SidebarInset>
   );

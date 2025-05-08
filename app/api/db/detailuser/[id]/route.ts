@@ -33,7 +33,7 @@ export async function GET(
   return NextResponse.json({ success: true, data: detail });
 }
 
-export async function PUT(
+export async function PATCH(
   //   req: NextRequest,
   //     { params }: { params: { id: string } }
   //   ) {
@@ -67,17 +67,16 @@ export async function DELETE(
   //   { params }: { params: { id: string } }
   // ) {
   //   const detail = await DetailUser.findByPk(params.id)
-//   context: { params: { id: string } }
-// ) {
-//   const { id } = context.params;
+  //   context: { params: { id: string } }
+  // ) {
+  //   const { id } = context.params;
 
-req: NextRequest,
-{ params }: { params: Promise<{ id: string }> }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-const { id } = await params;
+  const { id } = await params;
 
   const detail = await DetailUser.findByPk(id);
-
 
   if (!detail) {
     return NextResponse.json(

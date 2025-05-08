@@ -51,6 +51,10 @@ const data = {
           url: "/dashboard/member",
         },
         {
+          title: "Detail Member",
+          url: "/dashboard/detail-member",
+        },
+        {
           title: "Paket",
           url: "/dashboard/paket",
         },

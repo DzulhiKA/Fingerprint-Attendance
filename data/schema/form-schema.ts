@@ -96,7 +96,7 @@ export const hargaFormSchema: FormFieldSchema[] = [
 export const hargaDataSchema = z
   .object({
     nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
-    keterangan: z.string().min(1, { message: "Keterangan tidak boleh kosong" }),
+    keterangan: z.string().min(1, { message: "Keterangan tidak boleh kosong" }).max(50, { message: "Keterangan maksimal 50 karakter" }),
     harga: z.number().min(1, { message: "Harga tidak boleh kosong" }),
   })
   .refine((data) => data.harga > 0, {

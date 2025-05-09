@@ -181,3 +181,32 @@ export const kunjunganNonMemberDataSchema = z.object({
     .number()
     .min(1, { message: "Harga Dibayar tidak boleh kosong" }),
 });
+
+export const kasirFormSchema: FormFieldSchema[] = [
+  {
+    name: "nama",
+    label: "Nama",
+    type: "text",
+    required: true,
+  },
+  {
+    name: "quantity",
+    label: "Kuantitas",
+    type: "number",
+    required: true,
+  },
+  {
+    name: "total",
+    label: "Total Dibayar",
+    defaultValue: 0,
+    //@ts-ignore
+    type: "currency", // custom type
+    required: true,
+  },
+];
+
+export const kasirDataSchema = z.object({
+  nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
+  quantity: z.string().min(1, { message: "Kuantitas tidak boleh kosong" }),
+  total: z.number().min(1, { message: "Harga Dibayar tidak boleh kosong" }),
+});

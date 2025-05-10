@@ -227,6 +227,7 @@ export const memberColumn: ColumnDef<TMember>[] = [
                                 pwd,
                                 rfid,
                                 priv,
+                                expiredAt,
                                 tmp,
                               }),
                             }).then(async (res) => {

@@ -96,7 +96,7 @@ export const hargaFormSchema: FormFieldSchema[] = [
 export const hargaDataSchema = z
   .object({
     nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
-    keterangan: z.string().min(1, { message: "Keterangan tidak boleh kosong" }),
+    keterangan: z.string().min(1, { message: "Keterangan tidak boleh kosong" }).max(50, { message: "Keterangan maksimal 50 karakter" }),
     harga: z.number().min(1, { message: "Harga tidak boleh kosong" }),
   })
   .refine((data) => data.harga > 0, {
@@ -180,4 +180,33 @@ export const kunjunganNonMemberDataSchema = z.object({
   harga_dibayar: z
     .number()
     .min(1, { message: "Harga Dibayar tidak boleh kosong" }),
+});
+
+export const kasirFormSchema: FormFieldSchema[] = [
+  {
+    name: "nama",
+    label: "Nama",
+    type: "text",
+    required: true,
+  },
+  {
+    name: "quantity",
+    label: "Kuantitas",
+    type: "number",
+    required: true,
+  },
+  {
+    name: "total",
+    label: "Total Dibayar",
+    defaultValue: 0,
+    //@ts-ignore
+    type: "currency", // custom type
+    required: true,
+  },
+];
+
+export const kasirDataSchema = z.object({
+  nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
+  quantity: z.string().min(1, { message: "Kuantitas tidak boleh kosong" }),
+  total: z.number().min(1, { message: "Harga Dibayar tidak boleh kosong" }),
 });

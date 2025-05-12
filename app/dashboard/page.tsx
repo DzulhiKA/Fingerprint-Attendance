@@ -41,13 +41,11 @@ import {
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-
-
 interface UserMember {
   id: string;
   pin: string;
   nama: string;
-  expireAt: string;
+  expiredAt: string;
 }
 
 interface Staff {
@@ -71,123 +69,121 @@ export default function Dashboard() {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<{ from: Date; to?: Date } | undefined>();
 
- const handleSubmit = async (e: React.FormEvent) => {
-   e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-   if (!date?.from || !date?.to) {
-     toast.error("Please select both a start and end date.");
-     return;
-   }
+    if (!date?.from || !date?.to) {
+      toast.error("Please select both a start and end date.");
+      return;
+    }
 
-   const startDateFormatted = format(date.from, "dd-MM-yyyy");
-   const endDateFormatted = format(date.to, "dd-MM-yyyy");
+    const startDateFormatted = format(date.from, "dd-MM-yyyy");
+    const endDateFormatted = format(date.to, "dd-MM-yyyy");
 
-   const payload = {
-     startDate: format(date.from, "yyyy-MM-dd"),
-     endDate: format(date.to, "yyyy-MM-dd"),
-   };
+    const payload = {
+      startDate: format(date.from, "yyyy-MM-dd"),
+      endDate: format(date.to, "yyyy-MM-dd"),
+    };
 
-   const toastId = toast.loading("Exporting report...");
+    const toastId = toast.loading("Exporting report...");
 
-   try {
-     const res = await fetch("/api/db/laporan", {
-       method: "POST",
-       headers: { "Content-Type": "application/json" },
-       body: JSON.stringify(payload),
-     });
+    try {
+      const res = await fetch("/api/db/laporan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-     const json = await res.json();
+      const json = await res.json();
 
-     if (!res.ok || !json.success) throw new Error();
+      if (!res.ok || !json.success) throw new Error();
 
-     const doc = new jsPDF();
-     const dataObj = json.data;
-     let yOffset = 10;
+      const doc = new jsPDF();
+      const dataObj = json.data;
+      let yOffset = 10;
 
-     Object.entries(dataObj).forEach(([key, value]) => {
-       if (Array.isArray(value) && value.length > 0) {
-         // Filter out 'id' and 'updatedAt' but keep 'total'
-         const columns = Object.keys(value[0])
-           .filter((col) => col !== "id" && col !== "updatedAt")
-           .map((col) => ({ header: col, dataKey: col }));
+      Object.entries(dataObj).forEach(([key, value]) => {
+        if (Array.isArray(value) && value.length > 0) {
+          // Filter out 'id' and 'updatedAt' but keep 'total'
+          const columns = Object.keys(value[0])
+            .filter((col) => col !== "id" && col !== "updatedAt")
+            .map((col) => ({ header: col, dataKey: col }));
 
-         const rows = value.map((item) => {
-           const formattedItem: Record<string, any> = {};
+          const rows = value.map((item) => {
+            const formattedItem: Record<string, any> = {};
 
-           Object.entries(item).forEach(([field, val]) => {
-             if (field === "id" || field === "updatedAt") return; // Skip 'id' and 'updatedAt'
+            Object.entries(item).forEach(([field, val]) => {
+              if (field === "id" || field === "updatedAt") return; // Skip 'id' and 'updatedAt'
 
-             // Format date fields
-             if (
-               typeof val === "string" &&
-               (field.toLowerCase().includes("date") ||
-                 field.toLowerCase().includes("at"))
-             ) {
-               try {
-                 formattedItem[field] = format(
-                   parseISO(val),
-                   "dd MMMM yyyy HH:mm",
-                   {
-                     locale: id,
-                   }
-                 );
-               } catch {
-                 formattedItem[field] = val;
-               }
-             }
+              // Format date fields
+              if (
+                typeof val === "string" &&
+                (field.toLowerCase().includes("date") ||
+                  field.toLowerCase().includes("at"))
+              ) {
+                try {
+                  formattedItem[field] = format(
+                    parseISO(val),
+                    "dd MMMM yyyy HH:mm",
+                    {
+                      locale: id,
+                    }
+                  );
+                } catch {
+                  formattedItem[field] = val;
+                }
+              }
 
-             // Format harga fields with Rp. prefix
-             else if (
-               field.toLowerCase().includes("harga") ||
-               field.toLowerCase().includes("bayar")
-             ) {
-               formattedItem[field] = `Rp. ${Number(val).toLocaleString(
-                 "id-ID"
-               )}`;
-             }
+              // Format harga fields with Rp. prefix
+              else if (
+                field.toLowerCase().includes("harga") ||
+                field.toLowerCase().includes("bayar")
+              ) {
+                formattedItem[field] = `Rp. ${Number(val).toLocaleString(
+                  "id-ID"
+                )}`;
+              }
 
-             // Format total fields with Rp. prefix
-             else if (field.toLowerCase().includes("total")) {
-               formattedItem[field] = `Rp. ${Number(val).toLocaleString(
-                 "id-ID"
-               )}`;
-             }
+              // Format total fields with Rp. prefix
+              else if (field.toLowerCase().includes("total")) {
+                formattedItem[field] = `Rp. ${Number(val).toLocaleString(
+                  "id-ID"
+                )}`;
+              }
 
-             // Default
-             else {
-               formattedItem[field] = val;
-             }
-           });
+              // Default
+              else {
+                formattedItem[field] = val;
+              }
+            });
 
-           return formattedItem;
-         });
+            return formattedItem;
+          });
 
-         doc.text(`Tabel: ${key}`, 14, yOffset);
-         autoTable(doc, {
-           startY: yOffset + 5,
-           columns,
-           body: rows,
-           theme: "striped",
-           styles: { fontSize: 10 },
-           headStyles: { fillColor: [22, 160, 133] },
-         });
-         //@ts-ignore
-         yOffset = doc.lastAutoTable.finalY + 10;
-       }
-     });
+          doc.text(`Tabel: ${key}`, 14, yOffset);
+          autoTable(doc, {
+            startY: yOffset + 5,
+            columns,
+            body: rows,
+            theme: "striped",
+            styles: { fontSize: 10 },
+            headStyles: { fillColor: [22, 160, 133] },
+          });
+          //@ts-ignore
+          yOffset = doc.lastAutoTable.finalY + 10;
+        }
+      });
 
-     // Generate PDF with custom filename based on date range
-     const filename = `laporan_${startDateFormatted}_to_${endDateFormatted}.pdf`;
-     doc.save(filename);
+      // Generate PDF with custom filename based on date range
+      const filename = `laporan_${startDateFormatted}_to_${endDateFormatted}.pdf`;
+      doc.save(filename);
 
-     toast.success("Report exported successfully", { id: toastId });
-     setOpen(false);
-   } catch (error) {
-     toast.error("Failed to export report", { id: toastId });
-   }
- };
-
-
+      toast.success("Report exported successfully", { id: toastId });
+      setOpen(false);
+    } catch (error) {
+      toast.error("Failed to export report", { id: toastId });
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -317,13 +313,22 @@ export default function Dashboard() {
           </Dialog>
 
           {/* Cards */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
             <Card>
               <CardHeader>
                 <CardTitle>Total Staff</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-2xl font-bold">{staff?.length}</p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Total Paket</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">{paket.length}</p>
               </CardContent>
             </Card>
 
@@ -338,10 +343,18 @@ export default function Dashboard() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Total Paket</CardTitle>
+                <CardTitle>Member Expired</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">{paket.length}</p>
+                <p className="text-2xl font-bold">
+                  {
+                    userMember.filter((user) => {
+                      const expiredAt = new Date(user.expiredAt);
+                      const today = new Date();
+                      return expiredAt < today;
+                    }).length
+                  }
+                </p>
               </CardContent>
             </Card>
           </div>

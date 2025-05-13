@@ -98,7 +98,7 @@ export default function Member() {
                     body: JSON.stringify({ sn: "66208024520233" }),
                   }).then((res) => {
                     if (!res.ok) throw new Error();
-                    if(res.ok) location.reload();
+                    if (res.ok) location.reload();
                     return res.json();
                   }),
                   {
@@ -107,7 +107,7 @@ export default function Member() {
                     error: "Gagal mengambil data.",
                   }
                 );
-            
+
                 // Reload halaman setelah berhasil
                 // location.reload();
               } catch (error) {
@@ -115,6 +115,8 @@ export default function Member() {
               }
             }}
             addLink={false}
+            buttonAdd={true}
+            optionMenu={false}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

@@ -83,7 +83,10 @@ export const memberColumn: ColumnDef<TMember>[] = [
             fetch(`/api/db/user/${pin}`, {
               method: "PATCH",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ expiredAt: selectedDate }),
+              body: JSON.stringify({
+                expiredAt: selectedDate,
+                oldExpired: expiredAt,
+              }),
             }).then(async (res) => {
               if (!res.ok) {
                 const data = await res.json().catch(() => ({}));
@@ -224,6 +227,7 @@ export const memberColumn: ColumnDef<TMember>[] = [
                                 pwd,
                                 rfid,
                                 priv,
+                                expiredAt,
                                 tmp,
                               }),
                             }).then(async (res) => {

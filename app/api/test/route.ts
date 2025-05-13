@@ -4,7 +4,10 @@ import sequelize from '@/lib/sequelize';
 import User from '@/model/user';
 import Template from '@/model/template';
 import scanLog from "@/model/scanlog";
-import NonMember from "@/model/nonmember";
+// import NonMember from "@/model/nonmember";
+import Paket from "@/model/paket";
+import DetailUser from "@/model/detailuser";
+import Kasir from "@/model/kasir";
 
 
 export async function GET(req: any, res: any) {
@@ -13,7 +16,7 @@ export async function GET(req: any, res: any) {
     await sequelize.authenticate();
     await sequelize.sync(); // Be cautious in production!
 
-    // Create a test user
+    //Create a test user
     const user = await User.create({
       sn: '1234567890',
       pin: '1',
@@ -36,6 +39,12 @@ export async function GET(req: any, res: any) {
       ]
     });
 
+    const kasir = await Kasir.create({
+      nama    : "Minyak",
+      quantity: 2,
+      total   :20000
+    });
+
     const scanlog = await scanLog.create({
       pin: "2",
       workcode: 0,
@@ -45,24 +54,40 @@ export async function GET(req: any, res: any) {
       iomode: 1
     })
 
-    const nonMember = await NonMember.create({
-      nama: "andri",
-      harga_dibayar: 20000
+    // const nonMember = await NonMember.create({
+    //   nama: "andri",
+    //   harga_dibayar: 20000
+    // })
+
+    const paket = await Paket.create({
+      nama: "Silver Package",
+      harga: "20000",
+      keterangan : "Latihan Seminggu 1x"
+    })
+
+    const detailUser = await DetailUser.create({
+      user_id:"1",
+      paket_id:1,
+      nama: "Edo",
+      no_hp: "12345",
+      alamat : "Jl.Burung"
     })
 
     return NextResponse.json({
-      message: 'User created successfully!',
-      data: user
+      message: 'Migrate Successfully',
     }, {
         status: 200
     });
 
   } catch (error) {
-    console.error('DB Test Error:', error);
-    return NextResponse.json({
-      message: 'Something went wrong'
-    }, {
-        status: 500
-    });
+    console.error("DB Test Error:", error);
+    return NextResponse.json(
+      {
+        message: "Something went wrong",
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

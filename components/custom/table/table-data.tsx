@@ -37,6 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 
 type DataTableProps<TData> = {
   data: TData[];
@@ -44,6 +45,9 @@ type DataTableProps<TData> = {
   filter?: string;
   onClickAdd?: () => void; // ⬅️ tambahkan props di sini
   addLink?: boolean;
+  buttonAdd?: boolean;
+  optionMenu?: boolean;
+  editUrl?: string;
 };
 
 export function DataTable<TData>({
@@ -52,6 +56,9 @@ export function DataTable<TData>({
   filter,
   onClickAdd,
   addLink,
+  buttonAdd,
+  optionMenu,
+  editUrl,
 }: DataTableProps<TData>) {
   const pathname = usePathname();
   const createUrl = `${pathname}/create`;
@@ -87,29 +94,31 @@ export function DataTable<TData>({
       enableHiding: false,
     },
     ...columns,
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => {
-        const payment = row.original;
+    // {
+    //   id: "actions",
+    //   enableHiding: false,
+    //   cell: ({ row }) => {
+    //     const payment = row.original;
 
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
-      },
-    },
+    //     return optionMenu ? (
+    //       <DropdownMenu>
+    //         <DropdownMenuTrigger asChild>
+    //           <Button variant="ghost" className="h-8 w-8 p-0">
+    //             <span className="sr-only">Open menu</span>
+    //             <MoreHorizontal />
+    //           </Button>
+    //         </DropdownMenuTrigger>
+    //         <DropdownMenuContent align="end">
+    //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+    //           <DropdownMenuItem asChild>
+    //             <Link href={editUrl || "#"}>Edit</Link>
+    //           </DropdownMenuItem>
+    //           <DropdownMenuItem>Hapus</DropdownMenuItem>
+    //         </DropdownMenuContent>
+    //       </DropdownMenu>
+    //     ) : null;
+    //   },
+    // },
   ];
 
   const table = useReactTable({
@@ -144,19 +153,21 @@ export function DataTable<TData>({
           }
           className="max-w-sm"
         />
-        <Button onClick={onClickAdd} className="ml-auto">
-          <a href={addLink ? createUrl : "#"}>
-            Add{" "}
-            {pathname
-              .split("/")
-              .filter(Boolean)
-              .pop()
-              ?.toLowerCase()
-              .split("-")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" ")}
-          </a>
-        </Button>
+        {buttonAdd ? (
+          <Button onClick={onClickAdd} className="ml-auto">
+            <a href={addLink ? createUrl : "#"}>
+              Add{" "}
+              {pathname
+                .split("/")
+                .filter(Boolean)
+                .pop()
+                ?.toLowerCase()
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
+            </a>
+          </Button>
+        ) : null}
         {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">

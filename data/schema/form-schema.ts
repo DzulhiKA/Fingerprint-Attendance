@@ -72,53 +72,31 @@ export const memberDataSchema = z
 
 export const hargaFormSchema: FormFieldSchema[] = [
   {
-    name: "jenis",
-    label: "Jenis",
-    type: "select",
+    name: "nama",
+    label: "Nama",
+    type: "text",
     required: true,
-    options: [
-      {
-        label: "Membership",
-        value: "Membership",
-      },
-      {
-        label: "Personal Training",
-        value: "Personal Training",
-      },
-    ],
-  },
-  {
-    name: "tipe",
-    label: "Tipe",
-    type: "select",
-    required: true,
-    options: [
-      {
-        label: "Gold",
-        value: "Gold",
-      },
-      {
-        label: "Silver",
-        value: "Silver",
-      },
-      {
-        label: "Bronze",
-        value: "Bronze",
-      },
-    ],
   },
   {
     name: "harga",
     label: "Harga",
-    type: "number",
+    defaultValue: 0,
+    //@ts-ignore
+    type: "currency", // custom type
+    required: true,
+  },
+  {
+    name: "keterangan",
+    label: "Keterangan",
+    type: "text",
     required: true,
   },
 ];
 
 export const hargaDataSchema = z
   .object({
-    jenis: z.string().min(1, { message: "Jenis tidak boleh kosong" }),
-    tipe: z.string().min(1, { message: "Tipe tidak boleh kosong" }),
+    nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
+    keterangan: z.string().min(1, { message: "Keterangan tidak boleh kosong" }).max(50, { message: "Keterangan maksimal 50 karakter" }),
     harga: z.number().min(1, { message: "Harga tidak boleh kosong" }),
   })
   .refine((data) => data.harga > 0, {
@@ -128,14 +106,8 @@ export const hargaDataSchema = z
 
 export const userFormSchema: FormFieldSchema[] = [
   {
-    name: "id",
-    label: "ID",
-    type: "text",
-    required: true,
-  },
-  {
-    name: "username",
-    label: "Username",
+    name: "nama",
+    label: "Nama",
     type: "text",
     required: true,
   },
@@ -144,37 +116,17 @@ export const userFormSchema: FormFieldSchema[] = [
     label: "Password",
     type: "text",
   },
-  {
-    name: "role",
-    label: "Role",
-    type: "select",
-    required: true,
-    options: [
-      {
-        label: "Admin",
-        value: "admin",
-      },
-      {
-        label: "Staff",
-        value: "staff",
-      },
-      {
-        label: "Trainer",
-        value: "trainer",
-      },
-      {
-        label: "Member",
-        value: "member",
-      },
-    ],
-  },
 ];
 
 export const userDataSchema = z.object({
-  id: z.string().min(1, { message: "ID tidak boleh kosong" }),
-  username: z.string().min(1, { message: "Username tidak boleh kosong" }),
+  nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
   password: z.string().min(1, { message: "Password tidak boleh kosong" }),
-  role: z.string().min(1, { message: "Role tidak boleh kosong" }),
+});
+
+// Untuk edit user
+export const editUserSchema = z.object({
+  nama: z.string().min(1),
+  password: z.string().optional().or(z.literal("")),
 });
 
 export const kunjunganMemberFormSchema: FormFieldSchema[] = [
@@ -228,4 +180,33 @@ export const kunjunganNonMemberDataSchema = z.object({
   harga_dibayar: z
     .number()
     .min(1, { message: "Harga Dibayar tidak boleh kosong" }),
+});
+
+export const kasirFormSchema: FormFieldSchema[] = [
+  {
+    name: "nama",
+    label: "Nama",
+    type: "text",
+    required: true,
+  },
+  {
+    name: "quantity",
+    label: "Kuantitas",
+    type: "number",
+    required: true,
+  },
+  {
+    name: "total",
+    label: "Total Dibayar",
+    defaultValue: 0,
+    //@ts-ignore
+    type: "currency", // custom type
+    required: true,
+  },
+];
+
+export const kasirDataSchema = z.object({
+  nama: z.string().min(1, { message: "Nama tidak boleh kosong" }),
+  quantity: z.string().min(1, { message: "Kuantitas tidak boleh kosong" }),
+  total: z.number().min(1, { message: "Harga Dibayar tidak boleh kosong" }),
 });

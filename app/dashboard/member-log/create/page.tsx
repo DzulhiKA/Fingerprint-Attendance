@@ -1,7 +1,7 @@
+"use client"
+
 import { AppSidebar } from "@/components/custom/dashboard/app-sidebar";
-import { DataTable } from "@/components/custom/table/table-data";
-import { hargaList } from "@/data/harga-dummy-data";
-import { hargaColumns } from "@/components/custom/table/columns/harga-columns";
+import { FormTable } from "@/components/custom/form/form-table";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,8 +16,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { kunjunganMemberDataSchema, kunjunganMemberFormSchema } from "@/data/schema/form-schema";
 
-export default function Harga() {
+export default function createHarga() {
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -26,23 +27,23 @@ export default function Harga() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">Manage Data</BreadcrumbLink>
+              <BreadcrumbLink>Manage Data</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>Harga</BreadcrumbPage>
+              <BreadcrumbLink>Kunjungan Member</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden md:block" />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Create</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4">
-        {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-        </div> */}
-        <DataTable data={hargaList} columns={hargaColumns} filter="jenis" />
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        <FormTable schema={kunjunganMemberFormSchema} zodSchema={kunjunganMemberDataSchema} onSubmit={async (data) => {
+            console.log(data)
+        }}></FormTable>
       </div>
     </SidebarInset>
   );

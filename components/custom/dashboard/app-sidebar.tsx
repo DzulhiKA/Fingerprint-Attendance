@@ -33,6 +33,16 @@ const data = {
       ],
     },
     {
+      title: "Info Device",
+      url: "#",
+      items: [
+        {
+          title: "Cek Koneksi",
+          url: "/dashboard/info-device",
+        },
+      ],
+    },
+    {
       title: "Manage Data",
       url: "#",
       items: [
@@ -41,8 +51,16 @@ const data = {
           url: "/dashboard/member",
         },
         {
-          title: "Harga",
-          url: "/dashboard/harga",
+          title: "Detail Member",
+          url: "/dashboard/detail-member",
+        },
+        {
+          title: "Paket",
+          url: "/dashboard/paket",
+        },
+        {
+          title: "Kasir",
+          url: "/dashboard/kasir",
         },
         {
           title: "Staff",
@@ -65,29 +83,29 @@ const data = {
       ],
     },
     {
-      title: "Laporan",
+      title: "Log",
       url: "#",
       items: [
         {
           title: "Member",
-          url: "#",
-        },
-        {
-          title: "Non Member",
-          url: "#",
+          url: "/dashboard/member-log",
         },
       ],
     },
-    {
-      title: "Info Device",
-      url: "#",
-      items: [
-        {
-          title: "Cek Koneksi",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Laporan",
+    //   url: "#",
+    //   items: [
+    //     {
+    //       title: "Member",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Non Member",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
   ],
 };
 

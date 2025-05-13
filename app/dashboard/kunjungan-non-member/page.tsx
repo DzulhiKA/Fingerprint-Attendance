@@ -178,6 +178,8 @@ export default function Member() {
             columns={nonMembersColumn}
             filter="nama"
             addLink={true}
+            buttonAdd={true}
+            optionMenu={false}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

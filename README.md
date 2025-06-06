@@ -1,4 +1,44 @@
-# Fingerprint-Attendance
-This project is a fingerprint-based attendance system designed specifically for gym members, eliminating the need for physical membership cards. Members simply scan their fingerprint using a dedicated biometric device (e.g., Fingerspot), and their attendance is automatically recorded in the backend system.
+# 🏋️‍♂️ Gym Member Fingerprint Attendance System
 
-The goal is to streamline the check-in process, enhance security, and prevent card misuse (e.g., sharing cards between members).
+A backend system that allows gym members to check in using their **fingerprint**, removing the need for membership cards. Attendance is automatically logged via integration with a biometric device such as **Fingerspot**.
+
+---
+
+## 📌 Features
+
+- 🔒 **Fingerprint-Based Check-In**
+- 🔄 **Automated Sync with Biometric Device**
+- 👤 **Member Management (CRUD)**
+- 🗓️ **Daily Attendance Logging**
+- 📊 **Attendance History & Reports**
+- 🛡️ **JWT Authentication for Admin Access**
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer        | Technology           |
+|--------------|----------------------|
+| Backend      | Node.js, Express     |
+| Database     | MySQL / PostgreSQL   |
+| ORM          | Sequelize            |
+| Auth         | JWT                  |
+| Tools        | Postman, Cron Jobs, Swagger |
+| Deployment   | Railway / VPS        |
+
+---
+
+## 🧠 System Overview
+
+1. Admin registers gym members into the system.
+2. Each member is enrolled in the fingerprint scanner.
+3. When a member scans their fingerprint:
+   - Device logs the check-in.
+   - A scheduled sync job fetches new logs.
+   - The backend records the check-in with timestamp.
+4. Admins can view attendance history or generate reports.
+
+---
+
+## 🧩 Project Structure
+

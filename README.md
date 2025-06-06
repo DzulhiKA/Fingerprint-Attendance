@@ -19,12 +19,12 @@ A backend system that allows gym members to check in using their **fingerprint**
 
 | Layer        | Technology           |
 |--------------|----------------------|
-| Backend      | Node.js, Express     |
+| Backend      | Next.js              |
 | Database     | MySQL / PostgreSQL   |
 | ORM          | Sequelize            |
 | Auth         | JWT                  |
-| Tools        | Postman, Cron Jobs, Swagger |
-| Deployment   | Railway / VPS        |
+| Tools        | Postman              |
+| Deployment   | Local                |
 
 ---
 
